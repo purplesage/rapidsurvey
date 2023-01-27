@@ -15,7 +15,7 @@ class SurveyController extends Controller
    */
   public function index()
   {
-    return Inertia::render('Surveys/Index', []);
+    return Inertia::render('Surveys/Index', ['surveys' => Survey::all()]);
   }
 
   /**
@@ -36,7 +36,15 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
-    //
+
+    $attributes = $request->validate([
+      'title' => 'required|max:150|min:10',
+      'description' => 'required|max:350|min:10'
+    ]);
+
+    $request->user()->surveys()->create($attributes);
+
+    return to_route('surveys.index');
   }
 
   /**
@@ -58,7 +66,7 @@ class SurveyController extends Controller
    */
   public function edit(Survey $survey)
   {
-    //
+    return Inertia::render('Surveys/Edit', ['survey' => $survey]);
   }
 
   /**
@@ -70,7 +78,14 @@ class SurveyController extends Controller
    */
   public function update(Request $request, Survey $survey)
   {
-    //
+    $attributes = $request->validate([
+      'title' => 'required|max:150|min:10',
+      'description' => 'required|max:350|min:10'
+    ]);
+
+    $survey->update($attributes);
+
+    return back()->with('success', 'survey has been edited');
   }
 
   /**

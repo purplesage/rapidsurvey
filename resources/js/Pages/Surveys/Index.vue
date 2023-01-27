@@ -1,6 +1,9 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Link } from "@inertiajs/vue3";
+defineProps({
+    surveys: Array,
+});
 </script>
 
 <template>
@@ -22,6 +25,17 @@ import { Link } from "@inertiajs/vue3";
                         >
                             Add Survey
                         </Link>
+                        <div>
+                            <Link
+                                :href="
+                                    route('surveys.edit', { survey: survey.id })
+                                "
+                                v-for="survey in surveys"
+                                :key="survey.id"
+                            >
+                                {{ survey.title }}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

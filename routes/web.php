@@ -26,14 +26,20 @@ Route::get('/dashboard', function () {
   return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::middleware('auth')->group(function () {
+  Route::get('/surveys', [SurveyController::class, 'index'])->name('surveys.index');
+  Route::get('/surveys/create', [SurveyController::class, 'create'])->name('surveys.create');
+  Route::post('/surveys/store', [SurveyController::class, 'store'])->name('surveys.store');
+  Route::get('/surveys/edit/{survey}', [SurveyController::class, 'edit'])->name('surveys.edit');
+  Route::put('/surveys/edit/{survey}', [SurveyController::class, 'update'])->name('surveys.update');
+});
+
+
 Route::middleware('auth')->group(function () {
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-  Route::get('/surveys', [SurveyController::class, 'index'])->name('surveys');
-  Route::get('/surveys/create', [SurveyController::class, 'create'])->name('surveys.create');
-  Route::post('/surveys/create', [SurveyController::class, 'store'])->name('surveys.store');;
 });
 
 require __DIR__ . '/auth.php';

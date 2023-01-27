@@ -6,17 +6,15 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import { useForm, Head } from "@inertiajs/vue3";
 
+const props = defineProps({ survey: Object });
+
 const form = useForm({
-    title: "",
-    description: "",
+    title: props.survey.title,
+    description: props.survey.description,
 });
 
-form.defaults({
-    title: survey.title,
-    description: survey.description,
-});
 const submit = () => {
-    form.post(route("surveys.store"), {
+    form.put(route("surveys.update", props.survey.id), {
         onFinish: () => form.reset("title", "description"),
     });
 };
