@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
-import TextQuestion from "@/Components/TextQuestion.vue";
+import Question from "@/Components/Question.vue";
 import { useForm, Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 
@@ -161,7 +161,7 @@ const submit = () => {
                                 </button>
                             </header>
                             <div>
-                                <TextQuestion
+                                <Question
                                     v-for="question in renderedQuestions"
                                     :key="question.id"
                                     @unrenderQuestion="
