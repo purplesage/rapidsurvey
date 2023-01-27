@@ -11,6 +11,7 @@ const props = defineProps({ survey: Object });
 const form = useForm({
     title: props.survey.title,
     description: props.survey.description,
+    // image: {},
 });
 
 const submit = () => {
@@ -57,6 +58,21 @@ const submit = () => {
                     class="border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <form @submit.prevent="submit" class="p-6 border">
+                        <!-- <div class="mt-4">
+                            <InputLabel for="image" value="Image" />
+                            <TextInput
+                                id="image"
+                                type="file"
+                                class="mt-1 block w-full"
+                                v-model="form.image"
+                                required
+                            />
+
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors.description"
+                            />
+                        </div> -->
                         <div>
                             <InputLabel for="title" value="Title" />
                             <TextInput

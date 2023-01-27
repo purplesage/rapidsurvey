@@ -17,7 +17,9 @@ return new class extends Migration
       $table->id();
       $table->string('title');
       $table->string('description');
-      $table->foreignId('user_id');
+      $table->string('thumbnail')->nullable();
+      $table->date('expire_date');
+      $table->foreignId('user_id')->constrained()->cascadeOnDelete();
       $table->timestamps();
     });
   }

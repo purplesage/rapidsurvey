@@ -32,6 +32,10 @@ defineProps({
                                 :key="survey.id"
                                 class="border border-gray-200 p-3 rounded-xl shadow-md"
                             >
+                                <img
+                                    :src="`/storage/${survey.thumbnail}`"
+                                    alt="survey thumbnail"
+                                />
                                 <h3>{{ survey.title }}</h3>
                                 <p>{{ survey.description }}</p>
                                 <Link
