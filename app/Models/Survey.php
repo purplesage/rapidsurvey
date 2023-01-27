@@ -15,7 +15,9 @@ class Survey extends Model
     'description',
     'user_id',
     'thumbnail',
-    'expire_date'
+    'expire_date',
+    'is_active',
+    'questionList'
   ];
 
   public function user()

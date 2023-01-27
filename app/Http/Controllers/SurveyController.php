@@ -36,16 +36,22 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
+
+
+
     $attributes = $request->validate([
       'title' => 'required|max:150|min:10',
       'description' => 'required|max:350|min:10',
       'thumbnail' => 'required|image',
-      'expire_date' => 'date|after:today'
+      'expire_date' => 'date|after:today',
+      'is_active' => 'required',
+      'questionList' => 'required|array'
     ]);
 
     $request->user()->surveys()->create([
       ...$attributes,
-      'thumbnail' => request()->file('thumbnail')->store('thumbnails')
+      'thumbnail' => request()->file('thumbnail')->store('thumbnails'),
+      'questionList' => json_encode($request['questionList'])
     ]);
 
     return to_route('surveys.index');
