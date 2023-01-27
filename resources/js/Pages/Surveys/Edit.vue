@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
-import { useForm, Head } from "@inertiajs/vue3";
+import { useForm, Head, Link } from "@inertiajs/vue3";
 
 const props = defineProps({ survey: Object });
 
@@ -25,9 +25,30 @@ const submit = () => {
         <Head title="Create" />
 
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                create survey page
-            </h2>
+            <div class="flex items-center justify-between">
+                <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
+                    {{ props.survey.title }}
+                </h2>
+                <div class="flex items-center space-x-8">
+                    <Link
+                        :href="
+                            route('surveys.show', { survey: props.survey.id })
+                        "
+                    >
+                        View public link</Link
+                    >
+                    <Link
+                        :href="
+                            route('surveys.destroy', {
+                                survey: props.survey.id,
+                            })
+                        "
+                        method="delete"
+                    >
+                        Delete Survey</Link
+                    >
+                </div>
+            </div>
         </template>
 
         <div class="py-12">
@@ -66,7 +87,7 @@ const submit = () => {
                                 :message="form.errors.description"
                             />
                         </div>
-                        <PrimaryButton class="mt-5">Create</PrimaryButton>
+                        <PrimaryButton class="mt-5">Edit</PrimaryButton>
                     </form>
                 </div>
             </div>

@@ -29,10 +29,12 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
   Route::get('/surveys', [SurveyController::class, 'index'])->name('surveys.index');
+  Route::get('/surveys/{survey}', [SurveyController::class, 'show'])->name('surveys.show');
   Route::get('/surveys/create', [SurveyController::class, 'create'])->name('surveys.create');
   Route::post('/surveys/store', [SurveyController::class, 'store'])->name('surveys.store');
   Route::get('/surveys/edit/{survey}', [SurveyController::class, 'edit'])->name('surveys.edit');
   Route::put('/surveys/edit/{survey}', [SurveyController::class, 'update'])->name('surveys.update');
+  Route::delete('/surveys/{survey}', [SurveyController::class, 'destroy'])->name('surveys.destroy');
 });
 
 

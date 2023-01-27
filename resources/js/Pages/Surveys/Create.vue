@@ -12,8 +12,8 @@ const form = useForm({
 });
 
 form.defaults({
-    title: survey.title,
-    description: survey.description,
+    title: "",
+    description: "",
 });
 const submit = () => {
     form.post(route("surveys.store"), {
@@ -28,7 +28,7 @@ const submit = () => {
 
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                create survey page
+                Create New Survey
             </h2>
         </template>
 

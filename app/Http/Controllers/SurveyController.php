@@ -55,7 +55,7 @@ class SurveyController extends Controller
    */
   public function show(Survey $survey)
   {
-    //
+    return Inertia::render('Surveys/Show', ['survey' => $survey]);
   }
 
   /**
@@ -85,7 +85,7 @@ class SurveyController extends Controller
 
     $survey->update($attributes);
 
-    return back()->with('success', 'survey has been edited');
+    return to_route('surveys.index')->with('success', 'survey has been edited');
   }
 
   /**
@@ -96,6 +96,8 @@ class SurveyController extends Controller
    */
   public function destroy(Survey $survey)
   {
-    //
+    $survey->delete();
+
+    return to_route('surveys.index')->with('success', 'survey has been deleted');
   }
 }
