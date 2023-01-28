@@ -5,10 +5,11 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import { useForm, Head, Link } from "@inertiajs/vue3";
+import SurveyForm from "@/Components/SurveyForm.vue";
 
 const props = defineProps({ survey: Object });
 
-const form = useForm({
+/* const form = useForm({
     title: props.survey.title,
     description: props.survey.description,
     // image: {},
@@ -18,11 +19,12 @@ const submit = () => {
     form.put(route("surveys.update", props.survey.id), {
         onFinish: () => form.reset("title", "description"),
     });
-};
+}; */
 </script>
 
 <template>
-    <AuthenticatedLayout>
+    <SurveyForm :survey="props.survey" :isEditing="true" />
+    <!--  <AuthenticatedLayout>
         <Head title="Create" />
 
         <template #header>
@@ -55,12 +57,13 @@ const submit = () => {
         </template>
 
         <div class="py-12">
+            <pre>{{ JSON.parse(survey.questionList) }}</pre>
             <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <div
                     class="border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg"
                 >
                     <form @submit.prevent="submit" class="p-6 border">
-                        <!-- <div class="mt-4">
+                        <div class="mt-4">
                             <InputLabel for="image" value="Image" />
                             <TextInput
                                 id="image"
@@ -74,7 +77,7 @@ const submit = () => {
                                 class="mt-2"
                                 :message="form.errors.description"
                             />
-                        </div> -->
+                        </div>
                         <div>
                             <InputLabel for="title" value="Title" />
                             <TextInput
@@ -110,5 +113,5 @@ const submit = () => {
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
+    </AuthenticatedLayout> -->
 </template>
