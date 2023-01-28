@@ -84,8 +84,8 @@ const imagePreviewUrl = computed(() => {
     <p>{{ form.description }}</p>
     <p>{{ form.thumbnail }}</p>
     <p>{{ form.expire_date }}</p>
-    <p>{{ form.is_active }}</p>
-    <pre>{{ form.questionList }}</pre> -->
+    <p>{{ form.is_active }}</p> 
+    <pre>{{ form.questionList }}</pre>-->
 
     <AuthenticatedLayout>
         <Head title="Create" />
