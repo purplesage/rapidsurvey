@@ -2,7 +2,7 @@
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Option from "@/Components/Option.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
     questionID: String,
@@ -45,6 +45,24 @@ const questionObject = () => {
     };
 };
 
+const deleteAllOptions = () => {
+    questionRef.value.options = [];
+    renderedOptions.value = [];
+};
+
+const canUseAddButton = computed(() => {
+    const simpleInputs = ["text", "textarea"];
+
+    if (simpleInputs.includes(questionRef.value.type)) {
+        return questionRef.value.title?.length > 0;
+    } else {
+        return (
+            questionRef.value.title.length > 0 &&
+            questionRef.value.options.length > 0
+        );
+    }
+});
+
 //todo: inputsAreDisabled --rename--
 const disabled = ref(false);
 </script>
@@ -58,6 +76,7 @@ const disabled = ref(false);
                 name="question_type"
                 id="question_type"
                 :disabled="disabled"
+                @change="deleteAllOptions"
             >
                 <option value="text">Text</option>
                 <option value="select">Select</option>
@@ -70,10 +89,7 @@ const disabled = ref(false);
         <div class="mt-10">
             <div class="flex space-x-3 mt-5">
                 <button
-                    v-if="
-                        questionRef.title.length > 0 &&
-                        questionRef.options.length > 0
-                    "
+                    v-if="canUseAddButton"
                     :disabled="disabled"
                     class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
                     type="button"
@@ -112,7 +128,7 @@ const disabled = ref(false);
                         v-model="questionRef.title"
                         id="questionTitle"
                         type="text"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full disabled:bg-green-100 disabled:text-green-700"
                         required
                         :disabled="disabled"
                     />
@@ -167,7 +183,7 @@ const disabled = ref(false);
                             :disabled="disabled"
                             type="button"
                             @click="renderOption"
-                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-gray-500 disabled:cursor-not-allowed"
                         >
                             Add Option
                         </button>

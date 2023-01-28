@@ -71,7 +71,7 @@ const submit = () => {
                     <form @submit.prevent="submit" class="p-6 border">
                         <div>
                             <div
-                                class="flex justify-center shadow-lg w-fit p-5 rounded-xl mx-auto"
+                                class="flex justify-center shadow-md w-fit p-5 rounded-xl mx-auto"
                             >
                                 <img
                                     class="mb-4"
