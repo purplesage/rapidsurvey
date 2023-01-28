@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import Question from "@/Components/Question.vue";
 import { useForm, Head } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const renderedQuestions = ref([]);
 
@@ -16,6 +16,10 @@ const renderQuestion = () => {
         { id: crypto.randomUUID() },
     ];
 };
+
+const imagePreviewUrl = computed(() => {
+    return URL.createObjectURL(form.thumbnail);
+});
 
 const unrenderQuestion = (id) => {
     renderedQuestions.value = renderedQuestions.value.filter(
@@ -67,6 +71,12 @@ const submit = () => {
                                 for="thumbnail"
                                 >Upload file</label
                             >
+                            <img
+                                class="mb-4"
+                                v-if="form.thumbnail"
+                                :src="imagePreviewUrl"
+                                alt="preview image"
+                            />
                             <input
                                 class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
                                 id="thumbnail"
@@ -156,7 +166,11 @@ const submit = () => {
                         <div class="mt-10">
                             <header class="flex items-center justify-between">
                                 <h3 class="font-bold text-xl">Questions</h3>
-                                <button type="button" @click="renderQuestion">
+                                <button
+                                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                    type="button"
+                                    @click="renderQuestion"
+                                >
                                     Add Question
                                 </button>
                             </header>

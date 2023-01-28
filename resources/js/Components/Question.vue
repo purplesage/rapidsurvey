@@ -44,6 +44,8 @@ const questionObject = () => {
         options: questionRef.value.options,
     };
 };
+
+const disabled = ref(false);
 </script>
 <template>
     <div class="mt-4">
@@ -53,6 +55,7 @@ const questionObject = () => {
                 v-model="questionRef.type"
                 name="question_type"
                 id="question_type"
+                :disabled="disabled"
             >
                 <option value="text">Text</option>
                 <option value="select">Select</option>
@@ -65,12 +68,22 @@ const questionObject = () => {
         <div v-if="questionRef.type === 'text'">
             <div class="flex space-x-3 mt-5">
                 <button
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     type="button"
-                    @click="emits('addQuestion', questionObject())"
+                    @click="
+                        () => {
+                            emits('addQuestion', questionObject());
+                            disabled = true;
+                        }
+                    "
                 >
                     add
                 </button>
-                <button type="button" @click="emits('unrenderQuestion')">
+                <button
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    type="button"
+                    @click="emits('unrenderQuestion')"
+                >
                     delete
                 </button>
             </div>
@@ -81,6 +94,7 @@ const questionObject = () => {
                 type="text"
                 class="mt-1 block w-full"
                 required
+                :disabled="disabled"
             />
             <div class="mt-4">
                 <InputLabel for="questionDescription" value="Description" />
@@ -90,6 +104,7 @@ const questionObject = () => {
                     type="text"
                     class="mt-1 block w-full"
                     required
+                    :disabled="disabled"
                 />
             </div>
         </div>
