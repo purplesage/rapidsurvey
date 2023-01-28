@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Survey;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Validation\Rule as ValidationRule;
+
 
 class SurveyController extends Controller
 {
@@ -36,11 +38,8 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
-
-
-
     $attributes = $request->validate([
-      'title' => 'required|max:150|min:10',
+      'title' => ['required', 'min' => 10, ValidationRule::unique('surveys', 'title')],
       'description' => 'required|max:350|min:10',
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',
@@ -89,11 +88,22 @@ class SurveyController extends Controller
   public function update(Request $request, Survey $survey)
   {
     $attributes = $request->validate([
-      'title' => 'required|max:150|min:10',
-      'description' => 'required|max:350|min:10'
+      'title' => ['required', "min:20", ValidationRule::unique('surveys', 'title')->ignore($survey->id)],
+      'description' => 'required|max:350|min:10',
+      'thumbnail' => 'required|image',
+      'expire_date' => 'date|after:today',
+      'is_active' => 'required',
+      'questionList' => 'required|array'
     ]);
 
-    $survey->update($attributes);
+    if (isset($attributes['thumbnail'])) {
+      $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
+    }
+
+    $survey->update([
+      ...$attributes,
+      'questionList' => json_encode($request['questionList'])
+    ]);
 
     return to_route('surveys.index')->with('success', 'survey has been edited');
   }

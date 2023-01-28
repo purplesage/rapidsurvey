@@ -2,10 +2,10 @@
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Option from "@/Components/Option.vue";
-import { ref, computed } from "vue";
+import { ref, computed, onBeforeMount } from "vue";
 
 const props = defineProps({
-    questionID: String,
+    questionObject: Object,
     unrenderquestion: Function,
 });
 const emits = defineEmits(["deleteQuestion", "addQuestion"]);
@@ -19,7 +19,7 @@ const addOption = (optionObject) => {
     }
 
     questionRef.value.options = questionRef.value.options.map((option) =>
-        option.id === optionObject.id ? questionObject : option
+        option.id === optionObject.id ? optionObject : option
     );
 };
 
@@ -36,9 +36,18 @@ const questionRef = ref({
     options: [],
 });
 
-const questionObject = () => {
+onBeforeMount(() => {
+    if (props.questionObject?.title) {
+        questionRef.value.title = props.questionObject.title;
+        questionRef.value.description = props.questionObject.description;
+        questionRef.value.type = props.questionObject.type;
+        questionRef.value.options = props.questionObject.options;
+    }
+});
+
+const newQuestionObject = () => {
     return {
-        id: props.questionID,
+        id: props.questionObject.id,
         title: questionRef.value.title,
         description: questionRef.value.description,
         type: questionRef.value.type,
@@ -95,7 +104,7 @@ const disabled = ref(false);
                     type="button"
                     @click="
                         () => {
-                            emits('addQuestion', questionObject());
+                            emits('addQuestion', newQuestionObject());
                             disabled = true;
                         }
                     "
@@ -193,10 +202,11 @@ const disabled = ref(false);
                             :disabled="disabled"
                             v-for="(option, index) in questionRef.options"
                             :key="option.id"
+                            :optionObject="option"
                             :index="index"
                             @deleteOption="deleteOption(option.id)"
                             @addOption="
-                                (optionObject) => addOption(optionObject)
+                                (newOptionObject) => addOption(newOptionObject)
                             "
                         />
                     </div>

@@ -4,7 +4,8 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import InputError from "@/Components/InputError.vue";
 import Question from "@/Components/Question.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, router } from "@inertiajs/vue3";
+
 import { computed, onBeforeMount } from "vue";
 
 const props = defineProps({ survey: Object, isEditing: Boolean });
@@ -46,13 +47,19 @@ onBeforeMount(() => {
 });
 
 const submit = () => {
-    if (isEdit) {
-        form.put(route("surveys.update", props.survey.id), {
-            onFinish: () => form.reset("title", "description"),
+    if (props.isEditing) {
+        router.post(route("surveys.update", props.survey.id), {
+            _method: "put",
+            title: form.title,
+            description: form.description,
+            thumbnail: form.thumbnail,
+            expire_date: form.expire_date,
+            is_active: form.is_active,
+            questionList: form.questionList,
         });
     } else {
         form.post(route("surveys.store"), {
-            onFinish: () => form.reset("title", "description"),
+            onFinish: () => form.reset(),
         });
     }
 };
@@ -124,7 +131,7 @@ const imagePreviewUrl = computed(() => {
                                 class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
                                 id="thumbnail"
                                 type="file"
-                                required
+                                :required="!!isEditing"
                                 @change="
                                     (e) => (form.thumbnail = e.target.files[0])
                                 "
@@ -194,13 +201,12 @@ const imagePreviewUrl = computed(() => {
                                 type="checkbox"
                                 :checked="form.is_active"
                                 v-model="form.is_active"
-                                required
                             />
                         </div>
 
                         <InputError
                             class="mt-2"
-                            :message="form.errors.expire_date"
+                            :message="form.errors.is_active"
                         />
                     </div>
                     <div class="mt-10">
@@ -220,11 +226,11 @@ const imagePreviewUrl = computed(() => {
                             <Question
                                 v-for="question in form.questionList"
                                 :key="question.id"
-                                :questionID="question.id"
+                                :questionObject="question"
                                 @deleteQuestion="deleteQuestion(question.id)"
                                 @addQuestion="
-                                    (questionObject) =>
-                                        addQuestion(questionObject)
+                                    (newQuestionObject) =>
+                                        addQuestion(newQuestionObject)
                                 "
                             />
 

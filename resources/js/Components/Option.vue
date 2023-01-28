@@ -1,17 +1,21 @@
 <script setup>
 import PlusSVG from "@/Components/PlusSVG.vue";
 import DeleteSVG from "@/Components/DeleteSVG.vue";
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 
-const props = defineProps({ index: Number });
+const props = defineProps({ index: Number, optionObject: Object });
 const emits = defineEmits(["deleteOption", "addOption"]);
 
 const optionRef = ref("");
+
+onBeforeMount(() => {
+    if (props.optionObject.text) optionRef.value = props.optionObject.text;
+});
 const inputsAreDisabled = ref(false);
 
-const optionObject = () => {
+const newOptionObject = () => {
     return {
-        id: crypto.randomUUID(),
+        id: props.optionObject.id,
         text: optionRef.value,
     };
 };
@@ -31,7 +35,7 @@ const optionObject = () => {
             type="button"
             @click="
                 () => {
-                    emits('addOption', optionObject());
+                    emits('addOption', newOptionObject());
                     inputsAreDisabled = true;
                 }
             "
