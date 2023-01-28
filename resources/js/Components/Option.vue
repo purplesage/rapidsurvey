@@ -4,7 +4,7 @@ import DeleteSVG from "@/Components/DeleteSVG.vue";
 
 import { ref } from "vue";
 const props = defineProps({ index: Number });
-const emits = defineEmits(["unrenderOption", "addOption"]);
+const emits = defineEmits(["deleteOption", "addOption"]);
 
 const optionRef = ref("");
 const inputsAreDisabled = ref(false);
@@ -42,7 +42,7 @@ const optionObject = () => {
             v-if="!inputsAreDisabled"
             class="border-2 border-red-600 text-red-600 rounded-full hover:bg-red-600 hover:text-white"
             type="button"
-            @click="emits('unrenderOption')"
+            @click="emits('deleteOption')"
         >
             <DeleteSVG />
         </button>
