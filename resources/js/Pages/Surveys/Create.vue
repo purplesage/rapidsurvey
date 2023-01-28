@@ -28,10 +28,14 @@ const unrenderQuestion = (id) => {
 };
 
 const addQuestion = (questionObject) => {
-    questionList.value = [...questionList.value, questionObject];
+    form.questionList = [...form.questionList, questionObject];
 };
 
-const questionList = ref([]);
+const deleteQuestion = (id) => {
+    form.questionList = form.questionList.filter(
+        (question) => question.id !== id
+    );
+};
 
 const form = useForm({
     title: "",
@@ -39,7 +43,7 @@ const form = useForm({
     thumbnail: "",
     expire_date: "",
     is_active: false,
-    questionList,
+    questionList: [],
 });
 
 const submit = () => {
@@ -66,31 +70,54 @@ const submit = () => {
                 >
                     <form @submit.prevent="submit" class="p-6 border">
                         <div>
-                            <label
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                for="thumbnail"
-                                >Upload file</label
+                            <div
+                                class="flex justify-center shadow-lg w-fit p-5 rounded-xl mx-auto"
                             >
-                            <img
-                                class="mb-4"
-                                v-if="form.thumbnail"
-                                :src="imagePreviewUrl"
-                                alt="preview image"
-                            />
-                            <input
-                                class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
-                                id="thumbnail"
-                                type="file"
-                                required
-                                @change="
-                                    (e) => (form.thumbnail = e.target.files[0])
-                                "
-                            />
+                                <img
+                                    class="mb-4"
+                                    v-if="form.thumbnail"
+                                    :src="imagePreviewUrl"
+                                    alt="preview image"
+                                />
+                                <svg
+                                    v-else
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-40 h-40 text-gray-200"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                                    />
+                                </svg>
+                            </div>
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors.thumbnail"
-                            />
+                            <div class="mt-10">
+                                <label
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    for="thumbnail"
+                                    >Upload Image</label
+                                >
+
+                                <input
+                                    class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                                    id="thumbnail"
+                                    type="file"
+                                    required
+                                    @change="
+                                        (e) =>
+                                            (form.thumbnail = e.target.files[0])
+                                    "
+                                />
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors.thumbnail"
+                                />
+                            </div>
                         </div>
                         <div class="mt-4">
                             <InputLabel for="title" value="Title" />
@@ -178,8 +205,12 @@ const submit = () => {
                                 <Question
                                     v-for="question in renderedQuestions"
                                     :key="question.id"
+                                    :questionID="question.id"
                                     @unrenderQuestion="
-                                        unrenderQuestion(question.id)
+                                        () => {
+                                            unrenderQuestion(question.id);
+                                            deleteQuestion(question.id);
+                                        }
                                     "
                                     @addQuestion="
                                         (questionObject) =>

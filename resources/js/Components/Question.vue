@@ -37,7 +37,7 @@ const questionRef = ref({
 });
 const questionObject = () => {
     return {
-        id: crypto.randomUUID(),
+        id: props.questionID,
         title: questionRef.value.title,
         description: questionRef.value.description,
         type: questionRef.value.type,
@@ -48,10 +48,11 @@ const questionObject = () => {
 const disabled = ref(false);
 </script>
 <template>
-    <div class="mt-4">
+    <div class="mt-10">
         <div class="space-x-5">
             <label for="question_type">Question type:</label>
             <select
+                class="text-sm rounded-lg"
                 v-model="questionRef.type"
                 name="question_type"
                 id="question_type"
@@ -65,11 +66,16 @@ const disabled = ref(false);
             </select>
         </div>
         <!-- text question -->
-        <div v-if="questionRef.type === 'text'">
-            <div class="flex space-x-3 mt-5">
+        <div
+            class="mt-10"
+            v-if="
+                questionRef.type === 'text' || questionRef.type === 'textarea'
+            "
+        >
+            <div class="flex space-x-3">
                 <button
                     :disabled="disabled"
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
                     type="button"
                     @click="
                         () => {
@@ -81,22 +87,24 @@ const disabled = ref(false);
                     {{ disabled ? "added" : "add" }}
                 </button>
                 <button
-                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     type="button"
                     @click="emits('unrenderQuestion')"
                 >
                     delete
                 </button>
             </div>
-            <InputLabel for="questionTitle" value="Title" />
-            <TextInput
-                v-model="questionRef.title"
-                id="questionTitle"
-                type="text"
-                class="mt-1 block w-full"
-                required
-                :disabled="disabled"
-            />
+            <div class="mt-4">
+                <InputLabel for="questionTitle" value="Title" />
+                <TextInput
+                    v-model="questionRef.title"
+                    id="questionTitle"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                    :disabled="disabled"
+                />
+            </div>
             <div class="mt-4">
                 <InputLabel for="questionDescription" value="Description" />
                 <TextInput
@@ -109,8 +117,9 @@ const disabled = ref(false);
                 />
             </div>
         </div>
-        <!-- select question -->
+        <!-- Questions with options -->
         <div
+            class="mt-10"
             v-else-if="
                 questionRef.type === 'checkbox' ||
                 questionRef.type === 'select' ||
@@ -119,26 +128,41 @@ const disabled = ref(false);
         >
             <div class="flex space-x-3 mt-5">
                 <button
+                    :disabled="disabled"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
                     type="button"
-                    @click="emits('addQuestion', questionObject())"
+                    @click="
+                        () => {
+                            emits('addQuestion', questionObject());
+                            disabled = true;
+                        }
+                    "
                 >
-                    add
+                    {{ disabled ? "added" : "add" }}
                 </button>
-                <button type="button" @click="emits('unrenderQuestion')">
+                <button
+                    class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    type="button"
+                    @click="emits('unrenderQuestion')"
+                >
                     delete
                 </button>
             </div>
-            <InputLabel for="questionTitle" value="Title" />
-            <TextInput
-                v-model="questionRef.title"
-                id="questionTitle"
-                type="text"
-                class="mt-1 block w-full"
-                required
-            />
+            <div class="mt-5">
+                <InputLabel for="questionTitle" value="Title" />
+                <TextInput
+                    :disabled="disabled"
+                    v-model="questionRef.title"
+                    id="questionTitle"
+                    type="text"
+                    class="mt-1 block w-full"
+                    required
+                />
+            </div>
             <div class="mt-4">
                 <InputLabel for="questionDescription" value="Description" />
                 <TextInput
+                    :disabled="disabled"
                     v-model="questionRef.description"
                     id="questionDescription"
                     type="text"
@@ -149,11 +173,16 @@ const disabled = ref(false);
             <div class="mt-5">
                 <div class="flex justify-between">
                     <h3>Options</h3>
-                    <button type="button" @click="renderOption">
+                    <button
+                        :disabled="disabled"
+                        type="button"
+                        @click="renderOption"
+                    >
                         add option
                     </button>
                 </div>
                 <Option
+                    :disabled="disabled"
                     v-for="option in renderedOptions"
                     :key="option.id"
                     @unrenderOption="unrenderOption(option.id)"

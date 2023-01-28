@@ -35,6 +35,7 @@ const submit = () => {
                         :href="
                             route('surveys.show', { survey: props.survey.id })
                         "
+                        as="button"
                     >
                         View public link</Link
                     >
@@ -45,6 +46,7 @@ const submit = () => {
                             })
                         "
                         method="delete"
+                        as="button"
                     >
                         Delete Survey</Link
                     >

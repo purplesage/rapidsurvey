@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-
+const props = defineProps({ disabled: Boolean });
 const optionRef = ref("");
 const emits = defineEmits(["unrenderOption", "addOption"]);
 
@@ -13,7 +13,7 @@ const optionObject = () => {
 </script>
 <template>
     <div>
-        1-. <input v-model="optionRef" type="text" />
+        1-. <input :disabled="disabled" v-model="optionRef" type="text" />
         <button type="button" @click="emits('unrenderOption')">delete</button>
         <button type="button" @click="emits('addOption', optionObject())">
             add
