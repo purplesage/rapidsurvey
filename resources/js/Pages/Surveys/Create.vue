@@ -191,8 +191,10 @@ const submit = () => {
                             />
                         </div>
                         <div class="mt-10">
+                            <hr class="my-10 w-3/4 mx-auto" />
+
                             <header class="flex items-center justify-between">
-                                <h3 class="font-bold text-xl">Questions</h3>
+                                <h3 class="font-bold text-2xl">Questions</h3>
                                 <button
                                     class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                     type="button"
@@ -201,7 +203,7 @@ const submit = () => {
                                     Add Question
                                 </button>
                             </header>
-                            <div>
+                            <div class="mb-10">
                                 <Question
                                     v-for="question in renderedQuestions"
                                     :key="question.id"
@@ -226,7 +228,7 @@ const submit = () => {
                                 </p>
                             </div>
                         </div>
-                        <PrimaryButton class="mt-5">Create</PrimaryButton>
+                        <PrimaryButton>Create</PrimaryButton>
                     </form>
                 </div>
             </div>

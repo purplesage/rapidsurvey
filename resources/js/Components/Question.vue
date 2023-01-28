@@ -45,6 +45,7 @@ const questionObject = () => {
     };
 };
 
+//todo: inputsAreDisabled --rename--
 const disabled = ref(false);
 </script>
 <template>
@@ -66,68 +67,13 @@ const disabled = ref(false);
             </select>
         </div>
         <!-- text question -->
-        <div
-            class="mt-10"
-            v-if="
-                questionRef.type === 'text' || questionRef.type === 'textarea'
-            "
-        >
-            <div class="flex space-x-3">
-                <button
-                    :disabled="disabled"
-                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
-                    type="button"
-                    @click="
-                        () => {
-                            emits('addQuestion', questionObject());
-                            disabled = true;
-                        }
-                    "
-                >
-                    {{ disabled ? "added" : "add" }}
-                </button>
-                <button
-                    class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                    type="button"
-                    @click="emits('unrenderQuestion')"
-                >
-                    delete
-                </button>
-            </div>
-            <div class="mt-4">
-                <InputLabel for="questionTitle" value="Title" />
-                <TextInput
-                    v-model="questionRef.title"
-                    id="questionTitle"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    :disabled="disabled"
-                />
-            </div>
-            <div class="mt-4">
-                <InputLabel for="questionDescription" value="Description" />
-                <TextInput
-                    v-model="questionRef.description"
-                    id="questionDescription"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    :disabled="disabled"
-                />
-            </div>
-        </div>
-        <!-- Questions with options -->
-        <div
-            class="mt-10"
-            v-else-if="
-                questionRef.type === 'checkbox' ||
-                questionRef.type === 'select' ||
-                questionRef.type === 'radio'
-            "
-        >
+        <div class="mt-10">
             <div class="flex space-x-3 mt-5">
                 <button
+                    v-if="
+                        questionRef.title.length > 0 &&
+                        questionRef.options.length > 0
+                    "
                     :disabled="disabled"
                     class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
                     type="button"
@@ -140,55 +86,107 @@ const disabled = ref(false);
                 >
                     {{ disabled ? "added" : "add" }}
                 </button>
+                <div
+                    class="inline-flex items-center px-4 py-2 bg-green-200 border border-transparent rounded-md font-semibold text-slate-500 text-xs cursor-not-allowed uppercase tracking-widest"
+                    v-else
+                >
+                    add
+                </div>
                 <button
-                    class="inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     type="button"
                     @click="emits('unrenderQuestion')"
                 >
                     delete
                 </button>
             </div>
-            <div class="mt-5">
-                <InputLabel for="questionTitle" value="Title" />
-                <TextInput
-                    :disabled="disabled"
-                    v-model="questionRef.title"
-                    id="questionTitle"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                />
-            </div>
-            <div class="mt-4">
-                <InputLabel for="questionDescription" value="Description" />
-                <TextInput
-                    :disabled="disabled"
-                    v-model="questionRef.description"
-                    id="questionDescription"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                />
-            </div>
-            <div class="mt-5">
-                <div class="flex justify-between">
-                    <h3>Options</h3>
-                    <button
+            <div
+                v-if="
+                    questionRef.type === 'text' ||
+                    questionRef.type === 'textarea'
+                "
+            >
+                <div class="mt-4">
+                    <InputLabel for="questionTitle" value="Title" />
+                    <TextInput
+                        v-model="questionRef.title"
+                        id="questionTitle"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
                         :disabled="disabled"
-                        type="button"
-                        @click="renderOption"
-                    >
-                        add option
-                    </button>
+                    />
                 </div>
-                <Option
-                    :disabled="disabled"
-                    v-for="option in renderedOptions"
-                    :key="option.id"
-                    @unrenderOption="unrenderOption(option.id)"
-                    @addOption="(optionObject) => addOption(optionObject)"
-                />
+                <div class="mt-4">
+                    <InputLabel for="questionDescription" value="Description" />
+                    <TextInput
+                        v-model="questionRef.description"
+                        id="questionDescription"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        :disabled="disabled"
+                    />
+                </div>
+            </div>
+            <!-- Questions with options -->
+            <div
+                class="mt-10"
+                v-else-if="
+                    questionRef.type === 'checkbox' ||
+                    questionRef.type === 'select' ||
+                    questionRef.type === 'radio'
+                "
+            >
+                <div class="mt-5">
+                    <InputLabel for="questionTitle" value="Title" />
+                    <TextInput
+                        :disabled="disabled"
+                        v-model="questionRef.title"
+                        id="questionTitle"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                    />
+                </div>
+                <div class="mt-4">
+                    <InputLabel for="questionDescription" value="Description" />
+                    <TextInput
+                        :disabled="disabled"
+                        v-model="questionRef.description"
+                        id="questionDescription"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                    />
+                </div>
+                <div class="mt-10">
+                    <div class="flex justify-between">
+                        <h3 class="font-bold text-xl">Options</h3>
+                        <button
+                            :disabled="disabled"
+                            type="button"
+                            @click="renderOption"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                        >
+                            Add Option
+                        </button>
+                    </div>
+                    <div class="mt-5 space-y-5">
+                        <Option
+                            :disabled="disabled"
+                            v-for="(option, index) in renderedOptions"
+                            :key="option.id"
+                            :index="index"
+                            @unrenderOption="unrenderOption(option.id)"
+                            @addOption="
+                                (optionObject) => addOption(optionObject)
+                            "
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <hr class="my-20 w-1/2 mx-auto border border-slate-300" />
 </template>
