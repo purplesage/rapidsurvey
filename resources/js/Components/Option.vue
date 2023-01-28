@@ -1,8 +1,8 @@
 <script setup>
 import PlusSVG from "@/Components/PlusSVG.vue";
 import DeleteSVG from "@/Components/DeleteSVG.vue";
-
 import { ref } from "vue";
+
 const props = defineProps({ index: Number });
 const emits = defineEmits(["deleteOption", "addOption"]);
 
