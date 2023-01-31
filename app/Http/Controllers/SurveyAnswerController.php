@@ -12,4 +12,9 @@ class SurveyAnswerController extends Controller
   {
     return Inertia::render('Answers/Answer_create', ['survey' => $survey]);
   }
+
+  public function store(Request $request)
+  {
+    dd($request->all());
+  }
 }

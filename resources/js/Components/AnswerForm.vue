@@ -6,23 +6,31 @@ import { useForm } from "@inertiajs/vue3";
 const props = defineProps({ survey: Object });
 const questionList = ref([]);
 
-const form = useForm({});
+let form;
 
 onBeforeMount(() => {
     questionList.value = [...JSON.parse(props.survey.questionList)];
-    questionList.value.forEach(
-        (question, index) =>
-            (form[`inputModel_${index}`] = {
-                surveyId: props.survey.id,
-                questionTitle: question.title,
-                answer: "",
-            })
-    );
+    const formDefaults = { surveyId: props.survey.id };
+
+    questionList.value.forEach((question, index) => {
+        question.type === "checkbox"
+            ? (formDefaults[`inputModel_${index}`] = {
+                  questionTitle: question.title,
+                  answer: new Array(question.options.length).fill(""),
+              })
+            : (formDefaults[`inputModel_${index}`] = {
+                  questionTitle: question.title,
+                  answer: "",
+              });
+    });
+
+    form = useForm(formDefaults);
 });
 
-const submit = form.post(route("surveys.store"), {
-    onFinish: () => form.reset(),
-});
+const submit = () =>
+    form.post(route("survey_answer.store"), {
+        onFinish: () => form.reset(),
+    });
 </script>
 
 <template>
