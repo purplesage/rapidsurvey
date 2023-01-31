@@ -45,7 +45,7 @@ const props = defineProps({ QnAobject: Object, model: Object });
                 >
                     <span>{{ option.text }}</span>
                     <input
-                        v-model="model.answer[index]"
+                        v-model="model.answer[index].value"
                         type="checkbox"
                         name="checkbox_answer"
                         :value="option.text"

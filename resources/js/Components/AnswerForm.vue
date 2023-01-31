@@ -16,7 +16,10 @@ onBeforeMount(() => {
         question.type === "checkbox"
             ? (formDefaults[`inputModel_${index}`] = {
                   questionTitle: question.title,
-                  answer: new Array(question.options.length).fill(""),
+                  answer: question.options.map((option) => ({
+                      text: option.text,
+                      value: false,
+                  })),
               })
             : (formDefaults[`inputModel_${index}`] = {
                   questionTitle: question.title,
