@@ -6,6 +6,7 @@ use App\Http\Controllers\SurveyAnswerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Survey;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-  return Inertia::render('Dashboard');
+  return Inertia::render('Dashboard', ['surveys' => Survey::all()->load('answer')]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
 //public survey route
 Route::get('/surveys/{survey}', [SurveyController::class, 'show'])->name('surveys.show');
 
+//survey answers routes
 Route::get('survey_answer/{survey}', [SurveyAnswerController::class, 'create'])->name('survey_answer.create');
 Route::post('survey_answer', [SurveyAnswerController::class, 'store'])->name('survey_answer.store');
 
