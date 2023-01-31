@@ -18,16 +18,13 @@ class SurveyAnswerController extends Controller
 
   public function store(Request $request)
   {
-
-    // dd($request->all());
-
-    $attributes = $request->validate([
+    $request->validate([
       'survey_id' => [ValidationRule::exists('surveys', 'id')],
       'formData.*.answer' => ['max:150'],
     ]);
 
     Survey_answer::create(['survey_id' => $request['survey_id'], 'answers' => json_encode($request['formData'])]);
 
-    return back()->with('sucess', 'Answer submited!');
+    return Inertia::render('Answers/Succsessful')->with('sucess', 'Answer submited!');
   }
 }
