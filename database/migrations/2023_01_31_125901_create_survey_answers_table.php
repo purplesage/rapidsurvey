@@ -13,15 +13,9 @@ return new class extends Migration
    */
   public function up()
   {
-    Schema::create('surveys', function (Blueprint $table) {
+    Schema::create('survey_answers', function (Blueprint $table) {
       $table->id();
-      $table->string('title');
-      $table->boolean('is_active');
-      $table->text('description');
-      $table->string('thumbnail')->nullable();
-      $table->date('expire_date');
-      $table->json('questionList');
-      $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+      $table->foreignId('survey_id');
       $table->timestamps();
     });
   }
@@ -33,6 +27,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('surveys');
+    Schema::dropIfExists('survey_answers');
   }
 };

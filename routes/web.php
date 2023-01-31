@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\SurveyAnswerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,6 +42,8 @@ Route::middleware('auth')->group(function () {
 
 //public survey route
 Route::get('/surveys/{survey}', [SurveyController::class, 'show'])->name('surveys.show');
+
+Route::get('survey_answer/{survey}', [SurveyAnswerController::class, 'create'])->name('survey_answer.create');
 
 
 require __DIR__ . '/auth.php';

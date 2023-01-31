@@ -82,14 +82,14 @@ const imagePreviewUrl = computed(() => {
 
 <template>
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">
             <div
-                class="border-gray-200 bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                class="overflow-hidden border-gray-200 bg-white shadow-sm sm:rounded-lg"
             >
-                <form @submit.prevent="submit" class="p-6 border">
+                <form @submit.prevent="submit" class="border p-6">
                     <div>
                         <div
-                            class="flex justify-center shadow-md w-fit p-5 rounded-xl mx-auto"
+                            class="mx-auto flex w-fit justify-center rounded-xl p-5 shadow-md"
                         >
                             <svg
                                 v-if="form.thumbnail.length === 0"
@@ -98,7 +98,7 @@ const imagePreviewUrl = computed(() => {
                                 viewBox="0 0 24 24"
                                 stroke-width="1.5"
                                 stroke="currentColor"
-                                class="w-40 h-40 text-gray-200"
+                                class="h-40 w-40 text-gray-200"
                             >
                                 <path
                                     stroke-linecap="round"
@@ -122,13 +122,13 @@ const imagePreviewUrl = computed(() => {
 
                         <div class="mt-10">
                             <label
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 for="thumbnail"
                                 >Upload Image</label
                             >
 
                             <input
-                                class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                                class="block w-full cursor-pointer rounded-lg border border-gray-300 text-sm text-gray-900 file:cursor-pointer file:border-none file:bg-gray-800 file:py-2 file:px-4 file:text-sm file:text-white hover:file:bg-gray-700 focus:outline-none"
                                 id="thumbnail"
                                 type="file"
                                 :required="!!isEditing"
@@ -156,13 +156,16 @@ const imagePreviewUrl = computed(() => {
                     </div>
                     <div class="mt-4">
                         <InputLabel for="description" value="Description" />
-                        <TextInput
-                            id="description"
-                            type="text"
-                            class="mt-1 block w-full"
+
+                        <textarea
                             v-model="form.description"
+                            class="mt-1 block h-32 w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-green-100 disabled:text-green-700"
+                            name="description"
+                            id="description"
+                            cols="20"
+                            rows="10"
                             required
-                        />
+                        ></textarea>
 
                         <InputError
                             class="mt-2"
@@ -171,12 +174,12 @@ const imagePreviewUrl = computed(() => {
                     </div>
                     <div class="mt-5">
                         <label
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                             for="expire_date"
                             >Expire date</label
                         >
                         <input
-                            class="file:bg-gray-800 file:border-none file:text-white file:text-sm file:py-2 file:px-4 hover:file:bg-gray-700 file:cursor-pointer block w-1/6 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
+                            class="block w-1/6 cursor-pointer rounded-lg border border-gray-300 text-sm text-gray-900 file:cursor-pointer file:border-none file:bg-gray-800 file:py-2 file:px-4 file:text-sm file:text-white hover:file:bg-gray-700 focus:outline-none"
                             id="expire_date"
                             type="date"
                             v-model="form.expire_date"
@@ -191,12 +194,12 @@ const imagePreviewUrl = computed(() => {
                     <div class="mt-5">
                         <div class="flex space-x-3">
                             <label
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                                 for="is_active"
                                 >Active</label
                             >
                             <input
-                                class="block text-sm text-gray-800 bordercursor-pointer focus:outline-none"
+                                class="bordercursor-pointer block text-sm text-gray-800 focus:outline-none"
                                 id="is_active"
                                 type="checkbox"
                                 :checked="form.is_active"
@@ -210,12 +213,12 @@ const imagePreviewUrl = computed(() => {
                         />
                     </div>
                     <div class="mt-10">
-                        <hr class="my-10 w-3/4 mx-auto" />
+                        <hr class="my-10 mx-auto w-3/4" />
 
                         <header class="flex items-center justify-between">
-                            <h3 class="font-bold text-2xl">Questions</h3>
+                            <h3 class="text-2xl font-bold">Questions</h3>
                             <button
-                                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
                                 type="button"
                                 @click="addQuestion"
                             >

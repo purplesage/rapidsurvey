@@ -1,8 +1,9 @@
 <script setup>
+import AnswerForm from "@/Components/AnswerForm.vue";
 const props = defineProps({
     survey: Object,
 });
 </script>
 <template>
-    <h1>{{ survey.title }}</h1>
+    <AnswerForm :survey="props.survey" />
 </template>

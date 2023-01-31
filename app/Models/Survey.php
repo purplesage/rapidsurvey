@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Survey_answer;
 
 class Survey extends Model
 {
@@ -23,5 +24,10 @@ class Survey extends Model
   public function user()
   {
     return $this->belongsTo(User::class);
+  }
+
+  function answers()
+  {
+    return $this->hasMany(Survey_answer::class);
   }
 }

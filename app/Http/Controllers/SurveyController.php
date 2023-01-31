@@ -39,8 +39,8 @@ class SurveyController extends Controller
   public function store(Request $request)
   {
     $attributes = $request->validate([
-      'title' => ['required', 'min:20', ValidationRule::unique('surveys', 'title')],
-      'description' => 'required|max:350|min:10',
+      'title' => ['required', 'min:10', ValidationRule::unique('surveys', 'title')],
+      'description' => 'required|max:500|min:10',
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
@@ -88,8 +88,8 @@ class SurveyController extends Controller
   public function update(Request $request, Survey $survey)
   {
     $attributes = $request->validate([
-      'title' => ['required', "min:20", ValidationRule::unique('surveys', 'title')->ignore($survey->id)],
-      'description' => 'required|max:350|min:10',
+      'title' => ['required', "min:10", ValidationRule::unique('surveys', 'title')->ignore($survey->id)],
+      'description' => 'required|max:500|min:10',
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
