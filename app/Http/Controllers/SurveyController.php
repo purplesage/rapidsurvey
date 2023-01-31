@@ -39,7 +39,7 @@ class SurveyController extends Controller
   public function store(Request $request)
   {
     $attributes = $request->validate([
-      'title' => ['required', 'min' => 10, ValidationRule::unique('surveys', 'title')],
+      'title' => ['required', 'min:20', ValidationRule::unique('surveys', 'title')],
       'description' => 'required|max:350|min:10',
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',

@@ -74,7 +74,7 @@ const submit = () => {
 
             <div class="flex items-center justify-between mt-4">
                 <Link
-                    class="text-indigo-500 font-bold"
+                    class="text-gray-800 font-semibold"
                     :href="route('register')"
                 >
                     Sign Up
