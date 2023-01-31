@@ -15,6 +15,7 @@ onBeforeMount(() => {
     questionList.value.forEach((question, index) => {
         question.type === "checkbox"
             ? (formDefaults[`inputModel_${index}`] = {
+                  type: question.type,
                   questionTitle: question.title,
                   answer: question.options.map((option) => ({
                       text: option.text,
@@ -22,6 +23,7 @@ onBeforeMount(() => {
                   })),
               })
             : (formDefaults[`inputModel_${index}`] = {
+                  type: question.type,
                   questionTitle: question.title,
                   answer: "",
               });
@@ -31,9 +33,14 @@ onBeforeMount(() => {
 });
 
 const submit = () =>
-    form.post(route("survey_answer.store"), {
-        onFinish: () => form.reset(),
-    });
+    form
+        .transform((data) => ({
+            survey_id: props.survey.id,
+            formData: Object.values(data).slice(1),
+        }))
+        .post(route("survey_answer.store"), {
+            onFinish: () => form.reset(),
+        });
 </script>
 
 <template>
