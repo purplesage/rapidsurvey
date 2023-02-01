@@ -179,7 +179,7 @@ const imagePreviewUrl = computed(() => {
                             >Expire date</label
                         >
                         <input
-                            class="block w-1/6 cursor-pointer rounded-lg border border-gray-300 text-sm text-gray-900 file:cursor-pointer file:border-none file:bg-gray-800 file:py-2 file:px-4 file:text-sm file:text-white hover:file:bg-gray-700 focus:outline-none"
+                            class="md sm:1/6 block w-1/2 cursor-pointer rounded-lg border border-gray-300 text-sm text-gray-900 file:cursor-pointer file:border-none file:bg-gray-800 file:py-2 file:px-4 file:text-sm file:text-white hover:file:bg-gray-700 focus:outline-none md:w-1/6"
                             id="expire_date"
                             type="date"
                             v-model="form.expire_date"

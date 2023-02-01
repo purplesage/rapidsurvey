@@ -16,7 +16,7 @@ return new class extends Migration
     Schema::create('survey_answers', function (Blueprint $table) {
       $table->id();
       $table->json('answers');
-      $table->foreignId('survey_id');
+      $table->foreignId('survey_id')->constrained()->cascadeOnDelete();
       $table->timestamps();
     });
   }

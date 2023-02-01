@@ -44,24 +44,26 @@ const submit = () =>
 </script>
 
 <template>
-    <div class="py-12">
-        <div class="mx-auto max-w-4xl sm:px-6 lg:px-8">
+    <div class="bg-gray-300 sm:py-12">
+        <div class="mx-auto max-w-4xl sm:rounded-lg sm:px-6 lg:px-8">
             <div
                 class="overflow-hidden border-gray-200 bg-white shadow-xl sm:rounded-lg"
             >
                 <form
                     @submit.prevent="submit"
-                    class="rounded-lg border-2 border-gray-800 p-10"
+                    class="rounded-lg p-5 sm:border-2 sm:border-gray-800 sm:p-10"
                 >
-                    <header class="flex gap-10">
+                    <header class="flex flex-col gap-10 md:flex-row">
                         <img
-                            class="h-64 w-2/6 rounded-lg border-2 border-gray-800"
+                            class="mx-auto h-64 w-3/4 rounded-lg border-2 border-gray-800 md:mx-0 md:w-2/6"
                             :src="`/storage/${props.survey.thumbnail}`"
                             alt="preview image"
                         />
 
                         <div class="space-y-8">
-                            <h1 class="text-5xl font-bold underline">
+                            <h1
+                                class="text-center text-3xl font-bold md:text-left md:text-5xl md:underline"
+                            >
                                 {{ props.survey.title }}
                             </h1>
                             <p class="text-justify text-base text-gray-600">
@@ -71,16 +73,19 @@ const submit = () =>
                     </header>
 
                     <section class="mt-10">
-                        <hr class="my-10 mx-auto w-3/4" />
+                        <hr
+                            class="my-10 mx-auto w-3/4 border border-gray-300"
+                        />
                         <header class="flex items-center justify-between">
-                            <h3 class="text-2xl font-bold">Questions header</h3>
+                            <h3 class="mb-5 text-2xl font-bold">Questions</h3>
                         </header>
-                        <div class="mb-10">
+                        <div class="mb-10 space-y-5">
                             <QuestionAnswer
                                 v-for="(QnAobject, index) in questionList"
                                 :QnAobject="QnAobject"
                                 :model="form[`inputModel_${index}`]"
                                 :key="QnAobject.id"
+                                :index="index"
                             />
                         </div>
                     </section>
