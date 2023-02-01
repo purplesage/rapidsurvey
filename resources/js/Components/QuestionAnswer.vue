@@ -3,8 +3,10 @@ const props = defineProps({ QnAobject: Object, model: Object, index: Number });
 </script>
 
 <template>
-    <div class="flex flex-col items-center gap-2">
-        <legend class="space-x-2 text-center text-base font-semibold">
+    <div class="flex flex-col items-center gap-2 md:items-start">
+        <legend
+            class="space-x-2 text-center text-base font-semibold md:text-left"
+        >
             <span>{{ props.index + 1 }}-.</span
             ><span>{{ QnAobject.title }}</span>
         </legend>
@@ -36,7 +38,7 @@ const props = defineProps({ QnAobject: Object, model: Object, index: Number });
         <div class="mt-5" v-else-if="QnAobject.type === 'checkbox'">
             <fieldset>
                 <div
-                    class="flex items-center justify-center space-x-3"
+                    class="flex items-center justify-center space-x-3 md:justify-start"
                     :key="option.id"
                     v-for="(option, index) of QnAobject.options"
                 >
@@ -70,7 +72,7 @@ const props = defineProps({ QnAobject: Object, model: Object, index: Number });
                     />
                 </div>
             </fieldset>
-            <hr class="my-10 mx-auto w-3/4 border border-gray-300" />
+            <hr class="my-10 w-3/4 border border-gray-300" />
         </div>
 
         <div v-else-if="QnAobject.type === 'select'">
