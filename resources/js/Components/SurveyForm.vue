@@ -12,7 +12,16 @@ const props = defineProps({ survey: Object, isEditing: Boolean });
 
 const addQuestion = (questionObject) => {
     if (!questionObject.id) {
-        form.questionList = [...form.questionList, { id: crypto.randomUUID() }];
+        form.questionList = [
+            ...form.questionList,
+            {
+                id: crypto.randomUUID(),
+                title: "",
+                description: "",
+                type: "",
+                options: [],
+            },
+        ];
     }
 
     form.questionList = form.questionList.map((question) =>
@@ -35,6 +44,7 @@ const form = useForm({
     questionList: [],
 });
 
+//set form values for edit mode
 onBeforeMount(() => {
     if (props.survey.id) {
         form.title = props.survey.title;
