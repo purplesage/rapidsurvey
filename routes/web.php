@@ -23,6 +23,7 @@ Route::get('/', function () {
   return redirect('login');
 });
 
+//Dashboard route
 Route::get('/dashboard', function () {
   return Inertia::render('Dashboard', ['surveys' => Survey::all()->load('answer')]);
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -30,7 +30,9 @@ defineProps({
                 v-if="surveys.length > 0"
                 class="mx-auto max-w-2xl sm:px-6 lg:px-8"
             >
-                <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                <div
+                    class="mx-auto w-3/4 overflow-hidden bg-white shadow-sm sm:rounded-lg"
+                >
                     <div class="p-6 text-gray-900">
                         <div class="flex flex-col space-y-5">
                             <div
@@ -55,7 +57,7 @@ defineProps({
                                 </Link>
 
                                 <h3
-                                    class="text-2xl font-bold tracking-wide md:text-3xl"
+                                    class="w-2/3 text-center text-2xl font-bold tracking-wide md:text-3xl"
                                 >
                                     {{ survey.title }}
                                 </h3>

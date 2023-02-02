@@ -8,8 +8,6 @@ use Inertia\Inertia;
 use Illuminate\Validation\Rule as ValidationRule;
 use Illuminate\Support\Facades\Storage;
 
-use function PHPUnit\Framework\throwException;
-
 class SurveyController extends Controller
 {
   /**
@@ -47,7 +45,11 @@ class SurveyController extends Controller
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
-      'questionList' => 'required|array'
+      'questionList' => 'required|array|min:1|max:10',
+      'questionList.*.title' => 'min:5|max:100',
+      'questionList.*.description' => 'max:400',
+      'questionList.*.type' => 'string',
+      'questionList.*.options' => 'array'
     ]);
 
     $request->user()->surveys()->create([
@@ -96,7 +98,11 @@ class SurveyController extends Controller
       'thumbnail' => 'required',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
-      'questionList' => 'required|array'
+      'questionList' => 'required|array|min:1|max:10',
+      'questionList.*.title' => 'min:5|max:100',
+      'questionList.*.description' => 'max:400',
+      'questionList.*.type' => 'string',
+      'questionList.*.options' => 'array'
     ]);
 
     if (isset($attributes['thumbnail']) && gettype($attributes['thumbnail']) == 'object') {
