@@ -37,7 +37,7 @@ const questionRef = ref({
 });
 
 onBeforeMount(() => {
-    if (props.questionObject?.title) {
+    if (props.questionObject?.hasOwnProperty("title")) {
         questionRef.value.title = props.questionObject.title;
         questionRef.value.description = props.questionObject.description;
         questionRef.value.type = props.questionObject.type;
@@ -80,7 +80,7 @@ const disabled = ref(false);
         <div class="space-x-5">
             <label for="question_type">Question type:</label>
             <select
-                class="text-sm rounded-lg"
+                class="rounded-lg text-sm"
                 v-model="questionRef.type"
                 name="question_type"
                 id="question_type"
@@ -96,11 +96,11 @@ const disabled = ref(false);
         </div>
         <!-- text question -->
         <div class="mt-10">
-            <div class="flex space-x-3 mt-5">
+            <div class="mt-5 flex space-x-3">
                 <button
                     v-if="canUseAddButton"
                     :disabled="disabled"
-                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-green-200 disabled:text-slate-600 disabled:font-semibold"
+                    class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-green-500 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 disabled:bg-green-200 disabled:font-semibold disabled:text-slate-600"
                     type="button"
                     @click="
                         () => {
@@ -112,13 +112,13 @@ const disabled = ref(false);
                     {{ disabled ? "added" : "add" }}
                 </button>
                 <div
-                    class="inline-flex items-center px-4 py-2 bg-green-200 border border-transparent rounded-md font-semibold text-slate-500 text-xs cursor-not-allowed uppercase tracking-widest"
+                    class="inline-flex cursor-not-allowed items-center rounded-md border border-transparent bg-green-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-500"
                     v-else
                 >
                     add
                 </div>
                 <button
-                    class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                    class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900"
                     type="button"
                     @click="emits('deleteQuestion')"
                 >
@@ -187,12 +187,12 @@ const disabled = ref(false);
                 </div>
                 <div class="mt-10">
                     <div class="flex justify-between">
-                        <h3 class="font-bold text-xl">Options</h3>
+                        <h3 class="text-xl font-bold">Options</h3>
                         <button
                             :disabled="disabled"
                             type="button"
                             @click="addOption"
-                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 disabled:bg-gray-500 disabled:cursor-not-allowed"
+                            class="inline-flex items-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition duration-150 ease-in-out hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 disabled:cursor-not-allowed disabled:bg-gray-500"
                         >
                             Add Option
                         </button>
@@ -214,5 +214,5 @@ const disabled = ref(false);
             </div>
         </div>
     </div>
-    <hr class="my-20 w-1/2 mx-auto border border-slate-300" />
+    <hr class="my-20 mx-auto w-1/2 border border-slate-300" />
 </template>

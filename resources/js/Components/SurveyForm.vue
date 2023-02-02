@@ -59,7 +59,7 @@ const submit = () => {
         });
     } else {
         form.post(route("surveys.store"), {
-            onFinish: () => form.reset(),
+            onSuccess: () => form.reset(),
         });
     }
 };
@@ -130,8 +130,9 @@ const imagePreviewUrl = computed(() => {
                             <input
                                 class="block w-full cursor-pointer rounded-lg border border-gray-300 text-sm text-gray-900 file:cursor-pointer file:border-none file:bg-gray-800 file:py-2 file:px-4 file:text-sm file:text-white hover:file:bg-gray-700 focus:outline-none"
                                 id="thumbnail"
+                                name="thumbnail"
                                 type="file"
-                                :required="!!isEditing"
+                                :required="!isEditing"
                                 @change="
                                     (e) => (form.thumbnail = e.target.files[0])
                                 "
@@ -146,6 +147,7 @@ const imagePreviewUrl = computed(() => {
                         <InputLabel for="title" value="Title" />
                         <TextInput
                             id="title"
+                            name="title"
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.title"

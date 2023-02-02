@@ -6,7 +6,9 @@ use App\Models\Survey;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule as ValidationRule;
+use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\throwException;
 
 class SurveyController extends Controller
 {
@@ -17,7 +19,7 @@ class SurveyController extends Controller
    */
   public function index()
   {
-    return Inertia::render('Surveys/Index', ['surveys' => Survey::all()]);
+    return Inertia::render('Surveys/Index', ['surveys' => Survey::all()->except('questionList')]);
   }
 
   /**
@@ -38,6 +40,7 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
+
     $attributes = $request->validate([
       'title' => ['required', 'min:10', ValidationRule::unique('surveys', 'title')],
       'description' => 'required|max:500|min:10',
@@ -90,13 +93,13 @@ class SurveyController extends Controller
     $attributes = $request->validate([
       'title' => ['required', "min:10", ValidationRule::unique('surveys', 'title')->ignore($survey->id)],
       'description' => 'required|max:500|min:10',
-      'thumbnail' => 'required|image',
+      'thumbnail' => 'required',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
       'questionList' => 'required|array'
     ]);
 
-    if (isset($attributes['thumbnail'])) {
+    if (isset($attributes['thumbnail']) && gettype($attributes['thumbnail']) == 'object') {
       $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
     }
 
@@ -116,6 +119,11 @@ class SurveyController extends Controller
    */
   public function destroy(Survey $survey)
   {
+
+    if (Storage::exists($survey->thumbnail)) {
+      Storage::delete($survey->thumbnail);
+    }
+
     $survey->delete();
 
     return to_route('surveys.index')->with('success', 'survey has been deleted');
