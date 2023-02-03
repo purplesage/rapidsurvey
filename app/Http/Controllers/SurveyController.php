@@ -102,7 +102,9 @@ class SurveyController extends Controller
       'questionList.*.title' => 'min:5|max:100',
       'questionList.*.description' => 'max:400',
       'questionList.*.type' => 'string',
-      'questionList.*.options' => 'array'
+      'questionList.*.options' => 'array',
+      'questionList.*.options.*.text' => 'string|min:3'
+
     ]);
 
     if (isset($attributes['thumbnail']) && gettype($attributes['thumbnail']) == 'object') {
