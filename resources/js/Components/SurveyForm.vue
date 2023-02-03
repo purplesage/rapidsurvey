@@ -232,10 +232,12 @@ const imagePreviewUrl = computed(() => {
                         </header>
                         <div class="mb-10">
                             <Question
-                                v-for="question in form.questionList"
+                                v-for="(question, index) in form.questionList"
                                 :key="question.id"
                                 :questionObject="question"
                                 @deleteQuestion="deleteQuestion(question.id)"
+                                :index="index"
+                                :form="form"
                             />
 
                             <p

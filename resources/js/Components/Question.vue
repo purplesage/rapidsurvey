@@ -1,12 +1,16 @@
 <script setup>
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
+import InputError from "./InputError.vue";
 import Option from "@/Components/Option.vue";
 import { ref, onBeforeMount } from "vue";
 
 const props = defineProps({
     questionObject: Object,
+    index: Number,
+    form: Object,
 });
+
 const emits = defineEmits(["deleteQuestion"]);
 
 const addOption = () => {
@@ -59,6 +63,10 @@ const deleteAllOptions = () => {
                 <option value="checkbox">Checkbox</option>
                 <option value="textarea">Textarea</option>
             </select>
+            <InputError
+                class="mt-2"
+                :message="form.errors[`questionList.${index}.type`]"
+            />
         </div>
         <!-- text question -->
         <div class="mt-10">
@@ -86,6 +94,10 @@ const deleteAllOptions = () => {
                         class="mt-1 block w-full disabled:bg-green-100 disabled:text-green-700"
                         required
                     />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors[`questionList.${index}.title`]"
+                    />
                 </div>
                 <div class="mt-4">
                     <InputLabel for="questionDescription" value="Description" />
@@ -95,6 +107,12 @@ const deleteAllOptions = () => {
                         type="text"
                         class="mt-1 block w-full"
                         required
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="
+                            form.errors[`questionList.${index}.desription`]
+                        "
                     />
                 </div>
             </div>
@@ -116,6 +134,10 @@ const deleteAllOptions = () => {
                         class="mt-1 block w-full"
                         required
                     />
+                    <InputError
+                        class="mt-2"
+                        :message="form.errors[`questionList.${index}.title`]"
+                    />
                 </div>
                 <div class="mt-4">
                     <InputLabel for="questionDescription" value="Description" />
@@ -125,6 +147,12 @@ const deleteAllOptions = () => {
                         type="text"
                         class="mt-1 block w-full"
                         required
+                    />
+                    <InputError
+                        class="mt-2"
+                        :message="
+                            form.errors[`questionList.${index}.description`]
+                        "
                     />
                 </div>
                 <div class="mt-10">
@@ -144,8 +172,10 @@ const deleteAllOptions = () => {
                             :key="option.id"
                             :optionObject="option"
                             :index="index"
+                            :parentIndex="props.index"
                             @deleteOption="deleteOption(option.id)"
                             @addOption="addOption"
+                            :form="form"
                         />
                     </div>
                 </div>

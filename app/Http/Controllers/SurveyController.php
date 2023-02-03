@@ -41,7 +41,7 @@ class SurveyController extends Controller
 
     $attributes = $request->validate([
       'title' => ['required', 'min:10', ValidationRule::unique('surveys', 'title')],
-      'description' => 'required|max:500|min:10',
+      'description' => 'required|min:10|max:500',
       'thumbnail' => 'required|image',
       'expire_date' => 'date|after:today',
       'is_active' => 'required',
@@ -49,7 +49,8 @@ class SurveyController extends Controller
       'questionList.*.title' => 'min:5|max:100',
       'questionList.*.description' => 'max:400',
       'questionList.*.type' => 'string',
-      'questionList.*.options' => 'array'
+      'questionList.*.options' => 'array',
+      'questionList.*.options.*.text' => 'string|min:3'
     ]);
 
     $request->user()->surveys()->create([
