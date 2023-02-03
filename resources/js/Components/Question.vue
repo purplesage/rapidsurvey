@@ -111,7 +111,7 @@ const deleteAllOptions = () => {
                     <InputError
                         class="mt-2"
                         :message="
-                            form.errors[`questionList.${index}.desription`]
+                            form.errors[`questionList.${index}.description`]
                         "
                     />
                 </div>

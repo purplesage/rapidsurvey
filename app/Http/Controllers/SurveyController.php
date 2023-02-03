@@ -38,7 +38,6 @@ class SurveyController extends Controller
    */
   public function store(Request $request)
   {
-
     $attributes = $request->validate([
       'title' => ['required', 'min:10', ValidationRule::unique('surveys', 'title')],
       'description' => 'required|min:10|max:500',
@@ -47,7 +46,7 @@ class SurveyController extends Controller
       'is_active' => 'required',
       'questionList' => 'required|array|min:1|max:10',
       'questionList.*.title' => 'min:5|max:100',
-      'questionList.*.description' => 'max:400',
+      'questionList.*.description' => 'min:10|max:400',
       'questionList.*.type' => 'string',
       'questionList.*.options' => 'array',
       'questionList.*.options.*.text' => 'string|min:3'
@@ -101,7 +100,7 @@ class SurveyController extends Controller
       'is_active' => 'required',
       'questionList' => 'required|array|min:1|max:10',
       'questionList.*.title' => 'min:5|max:100',
-      'questionList.*.description' => 'max:400',
+      'questionList.*.description' => 'min:10|max:400',
       'questionList.*.type' => 'string',
       'questionList.*.options' => 'array',
       'questionList.*.options.*.text' => 'string|min:3'
